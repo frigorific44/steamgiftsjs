@@ -1,4 +1,4 @@
 # Contains the authenticated browser state
-playwright/.auth
+puppeteer/.auth
 # Dependency directory
 node_modules/

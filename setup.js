@@ -1,8 +1,8 @@
-const path = require("path");
-const fs = require("node:fs");
-const { default: puppeteer } = require("puppeteer");
+import { join } from "path";
+import { writeFileSync } from "node:fs";
+import puppeteer from "puppeteer";
 
-const authFile = path.join(__dirname, './puppeteer/.auth/user.json');
+const authFile = join(import.meta.dirname, './puppeteer/.auth/user.json');
 
 async function setup() {
   const browser = await puppeteer.launch({headless: false});
@@ -13,13 +13,12 @@ async function setup() {
   await page.waitForFunction("window.location == 'https://www.steamgifts.com/'")
   // Save authentication state.
   const cookies = JSON.stringify(await browser.cookies());
-  fs.writeFileSync(authFile, cookies)
-  // await page.context().storageState({ path: authFile });
+  writeFileSync(authFile, cookies)
   await browser.close();
 }
 
-if (require.main === module) {
+if (process.argv[1] === import.meta.filename) {
   setup();
 }
 
-module.exports = { setup, authFile }
+export { setup, authFile }

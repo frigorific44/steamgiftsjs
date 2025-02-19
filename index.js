@@ -1,9 +1,9 @@
-const { default: puppeteer } = require("puppeteer");
-const fs = require("node:fs");
-const { authFile } = require("./setup");
+import puppeteer from "puppeteer";
+import { readFileSync } from "node:fs";
+import { authFile } from "./setup.js";
 
 async function loadCookies(page) {
-  const cookieJson = fs.readFileSync(authFile);
+  const cookieJson = readFileSync(authFile);
   const cookies = JSON.parse(cookieJson);
   await page.setCookie(...cookies);
 }

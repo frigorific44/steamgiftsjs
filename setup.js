@@ -4,16 +4,15 @@ import puppeteer from "puppeteer";
 
 const authFile = join(import.meta.dirname, './puppeteer/.auth/user.json');
 
-async function saveCookies(page) {
-  const browser = await page.browser();
+async function saveCookies(browser) {
   const cookies = JSON.stringify(await browser.cookies());
   writeFileSync(authFile, cookies);
 }
 
-async function loadCookies(page) {
+async function loadCookies(browser) {
   const cookieJson = readFileSync(authFile);
   const cookies = JSON.parse(cookieJson);
-  await page.setCookie(...cookies);
+  await browser.setCookie(...cookies);
 }
 
 async function setup() {
@@ -24,7 +23,7 @@ async function setup() {
   // Wait for manual authentication.
   await page.waitForFunction("window.location == 'https://www.steamgifts.com/'")
   // Save authentication state.
-  await saveCookies(page);
+  await saveCookies(browser);
   await browser.close();
 }
 

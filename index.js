@@ -14,8 +14,7 @@ async function enter(page, url) {
     // {headless: false}
   );
   const page = await browser.newPage();
-  await page.goto("https://www.steamgifts.com/");
-  await loadCookies(page);
+  await loadCookies(browser);
   await page.goto("https://www.steamgifts.com/giveaways/search?type=wishlist");
   const selector = '.page__heading + div .giveaway__row-inner-wrap:not(.is-faded) .giveaway__heading__name';
   const urls = await page.$$eval(selector, headers => {

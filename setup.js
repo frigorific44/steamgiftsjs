@@ -1,10 +1,14 @@
 import { join } from "path";
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import puppeteer from "puppeteer";
 
-const authFile = join(import.meta.dirname, './puppeteer/.auth/user.json');
+const authDir = join(import.meta.dirname, './puppeteer/.auth')
+const authFile = join(authDir, 'user.json');
 
 async function saveCookies(browser) {
+  if (!existsSync(authDir)) {
+    mkdirSync(authDir, { recursive: true });
+  }
   const cookies = JSON.stringify(await browser.cookies());
   writeFileSync(authFile, cookies);
 }
